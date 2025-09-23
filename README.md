@@ -1,4 +1,4 @@
-# Flatadango 🎬
+# Flatadango 
 
 Flatadango is a mini web app that lets users view movies, buy tickets, and manage showings for the Flatiron Movie Theater.  
 
@@ -16,7 +16,6 @@ This project demonstrates the **three pillars of JavaScript**:
 - Delete a film from the server and UI.  
 - Sold-out movies are marked clearly in the UI.  
 
----
 
 ## 📦 Setup Instructions
 
