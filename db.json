@@ -1,0 +1,35 @@
+{
+  "films": [],
+  "tickets": [
+    {
+      "film_id": "1",
+      "number_of_tickets": 1,
+      "id": 1
+    },
+    {
+      "film_id": "1",
+      "number_of_tickets": 1,
+      "id": 2
+    },
+    {
+      "film_id": "2",
+      "number_of_tickets": 1,
+      "id": 3
+    },
+    {
+      "film_id": "2",
+      "number_of_tickets": 1,
+      "id": 4
+    },
+    {
+      "film_id": "2",
+      "number_of_tickets": 1,
+      "id": 5
+    },
+    {
+      "film_id": "2",
+      "number_of_tickets": 1,
+      "id": 6
+    }
+  ]
+}
