@@ -1,4 +1,4 @@
-const BASE_URL = "http://localhost:3000"; // json-server default
+const BASE_URL = "http://localhost:3000";
 let currentFilm = null;
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -37,7 +37,6 @@ function renderFilmList(films) {
     ul.appendChild(li);
   });
 
-  // show first film if exists
   if (films.length > 0) {
     loadFilmDetails(films[0].id);
   } else {
@@ -61,15 +60,13 @@ function renderFilmDetails(film) {
   document.getElementById("runtime").textContent = `Runtime: ${film.runtime} minutes`;
   document.getElementById("showtime").textContent = `Showtime: ${film.showtime}`;
   const available = film.capacity - film.tickets_sold;
-  const availableEl = document.getElementById("available");
-  availableEl.textContent = `${available} tickets available`;
+  document.getElementById("available").textContent = `${available} tickets available`;
   document.getElementById("description").textContent = film.description;
 
   const buyBtn = document.getElementById("buy-ticket");
   buyBtn.disabled = available <= 0;
   buyBtn.textContent = available <= 0 ? "Sold Out" : "Buy Ticket";
 
-  // ensure film in list shows sold-out class if needed
   const li = document.querySelector(`#films li[data-id="${film.id}"]`);
   if (li) {
     if (available <= 0) li.classList.add("sold-out");
@@ -84,7 +81,6 @@ function buyTicket() {
 
   const updatedTicketsSold = currentFilm.tickets_sold + 1;
 
-  // 1) PATCH /films/:id -> update tickets_sold
   fetch(`${BASE_URL}/films/${currentFilm.id}`, {
     method: "PATCH",
     headers: { "Content-Type": "application/json" },
@@ -95,7 +91,6 @@ function buyTicket() {
       currentFilm = updatedFilm;
       renderFilmDetails(updatedFilm);
 
-      // 2) POST /tickets to persist purchase record
       return fetch(`${BASE_URL}/tickets`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -103,18 +98,14 @@ function buyTicket() {
       });
     })
     .then(r => r.json())
-    .then(ticketRecord => {
-      console.log("Ticket record saved:", ticketRecord);
-    })
+    .then(ticketRecord => console.log("Ticket record saved:", ticketRecord))
     .catch(err => console.error("Error buying ticket:", err));
 }
 
 function deleteFilm(id, liElement) {
   fetch(`${BASE_URL}/films/${id}`, { method: "DELETE" })
     .then(() => {
-      // remove from UI
       if (liElement) liElement.remove();
-      // if deleted film is current, show another film or clear
       if (currentFilm && currentFilm.id === id) {
         const firstLi = document.querySelector("#films li");
         if (firstLi) loadFilmDetails(firstLi.dataset.id);
@@ -137,6 +128,7 @@ function clearDetails() {
   document.getElementById("showtime").textContent = "";
   document.getElementById("available").textContent = "";
   document.getElementById("description").textContent = "";
-  document.getElementById("buy-ticket").disabled = true;
-  document.getElementById("buy-ticket").textContent = "Buy Ticket";
+  const buyBtn = document.getElementById("buy-ticket");
+  buyBtn.disabled = true;
+  buyBtn.textContent = "Buy Ticket";
 }
